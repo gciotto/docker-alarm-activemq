@@ -1,30 +1,31 @@
-# Docker container for BEAST Alarm Server
-
-# Author: Gustavo Ciotto Pinton
-# LNLS - Brazilian Synchrotron Light Source Laboratory
+#
+# Docker image for Apache ActiveMQ, used by the communication between alarm
+# server and clients.
+#
+# Gustavo Ciotto Pinton
+# Controls Group - Brazilian Synchrotron Light Source Laboratory - LNLS
+#
 
 FROM debian:stretch
 
 MAINTAINER Gustavo Ciotto
 
-# user root is required to install all needed packages
-USER root
+ENV SCRIPT_FOLDER /opt/activemq
 
-RUN mkdir -p /build/scripts/
+RUN mkdir -p ${SCRIPT_FOLDER}/scripts/
 
-COPY docker-update.sh \
-     env-vars.sh \
-     docker-activemq-init \
-     /build/scripts/
+# Update image and install required packages
+RUN apt-get -y update
+RUN apt-get install -y activemq
 
-WORKDIR /build/scripts/
+COPY activemq-start \
+     ${SCRIPT_FOLDER}/scripts/
 
-RUN ./docker-update.sh
+WORKDIR ${SCRIPT_FOLDER}/scripts/
 
 RUN mkdir /etc/activemq/instances-enabled/main
 
+# Copy activemq configuration file into the image
 COPY activemq.xml /etc/activemq/instances-enabled/main
 
-CMD ["/build/scripts/docker-activemq-init"]
-
-WORKDIR /
+CMD ["sh", "-c", "${SCRIPT_FOLDER}/scripts/activemq-start"]
