@@ -1,5 +1,7 @@
 #!/bin/sh
 
+# A simple script to start activemq service
 /etc/init.d/activemq start
 
+# Does not allow Docker container to finish and close
 tail -f /dev/null
