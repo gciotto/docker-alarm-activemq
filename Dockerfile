@@ -15,8 +15,9 @@ ENV SCRIPT_FOLDER /opt/activemq
 RUN mkdir -p ${SCRIPT_FOLDER}/scripts/
 
 # Update image and install required packages
-RUN apt-get -y update
-RUN apt-get install -y activemq
+RUN apt-get -y update && \
+ apt-get install -y activemq && \
+ rm -rf /var/lib/apt/lists/*
 
 COPY activemq-start \
      ${SCRIPT_FOLDER}/scripts/
