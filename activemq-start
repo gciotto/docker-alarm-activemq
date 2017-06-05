@@ -1,5 +1,13 @@
 #!/bin/sh
 
+# Changes ip address in activemq.xml
+
+# Get local ip address
+IP_ADDRESS=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+
+# Change cluster inet address
+sed -i "s/10\.128\.2\.3/${IP_ADDRESS}/" /etc/activemq/instances-enabled/main/activemq.xml
+
 # A simple script to start activemq service
 /etc/init.d/activemq start
 
