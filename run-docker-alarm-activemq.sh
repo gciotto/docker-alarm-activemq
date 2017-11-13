@@ -26,7 +26,7 @@ if [ ! -z ${CONTAINERS:+x} ]; then
 fi
 
 docker run -d --name=${DOCKER_RUN_NAME} --network=${NETWORK_ID} \
-    -p ${ACTIVE_MQ_PORT}:${ACTIVE_MQ_PORT} ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}
+    -p ${ACTIVE_MQ_PORT}:${ACTIVE_MQ_PORT} ${DOCKER_MANTAINER_NAME}/${DOCKER_NAME}:${DOCKER_TAG}
 
 docker logs -f ${DOCKER_RUN_NAME}
     
