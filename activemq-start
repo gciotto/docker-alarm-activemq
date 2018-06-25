@@ -3,7 +3,8 @@
 # Changes ip address in activemq.xml
 
 # Get local ip address
-IP_ADDRESS=$(ip addr show eth0 | grep "inet\b" | awk '{print $2}' | cut -d/ -f1)
+# IP_ADDRESS=$(getent hosts alarm-server-activemq | awk '{ print $1 }')
+IP_ADDRESS=0.0.0.0
 
 # Change cluster inet address
 sed -i "s/10\.128\.2\.3/${IP_ADDRESS}/" /etc/activemq/instances-enabled/main/activemq.xml
